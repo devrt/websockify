@@ -281,6 +281,11 @@ class WebSockifyRequestHandler(WebSocketRequestHandlerMixIn, SimpleHTTPRequestHa
         else:
             super().do_HEAD()
 
+    def end_headers(self):
+        self.send_header('Cache-Control', 'max-age=0')
+        self.send_header('Expires', '0')
+        super().end_headers()
+
     def finish(self):
         if self.rec:
             self.rec.write("'EOF'];\n")
